@@ -1,0 +1,8 @@
+﻿{
+  "mcpServers": {
+    "git-changelog": {
+      "command": "node",
+      "args": ["C:/Users/user/Desktop/Jackson-CS2/Opeenn/dist/index.js"]
+    }
+  }
+}
