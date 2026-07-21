@@ -1,7 +1,7 @@
 {
-  "name": "opeenn",
+  "name": "git-changelog-mcp",
   "version": "1.0.0",
-  "description": "MCP server for git repository analysis and changelog generation",
+  "description": "MCP server that enables AI agents to read git commits and generate beautiful changelogs",
   "main": "dist/index.js",
   "type": "module",
   "bin": {
@@ -11,16 +11,39 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "tsc && node dist/index.js",
+    "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "mcp",
+    "model-context-protocol",
     "git",
     "changelog",
-    "model-context-protocol"
+    "conventional-commits",
+    "cursor",
+    "claude",
+    "ai",
+    "llm",
+    "release-notes"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "kslmisel <jackson.kslmisel@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kslmisel/git-changelog-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kslmisel/git-changelog-mcp/issues"
+  },
+  "homepage": "https://github.com/kslmisel/git-changelog-mcp#readme",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@modelcontextprotocol/server": "^2.0.0-beta.4",
     "simple-git": "^3.36.0",

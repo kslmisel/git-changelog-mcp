@@ -1,12 +1,46 @@
-﻿# Git Changelog MCP Server
+﻿<div align="center">
 
-A Model Context Protocol (MCP) server that enables AI agents to inspect local git repositories and generate beautifully formatted changelogs.
+# 🔖 Git Changelog MCP
 
-## Features
+**MCP server that enables AI agents to read git commits and generate beautiful changelogs**
 
-This MCP server exposes two tools to LLMs:
+[![npm version](https://img.shields.io/npm/v/git-changelog-mcp.svg)](https://www.npmjs.com/package/git-changelog-mcp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-7.0-blue.svg)](https://www.typescriptlang.org/)
+[![MCP](https://img.shields.io/badge/MCP-2.0-green.svg)](https://modelcontextprotocol.io/)
 
-### `git_get_recent_commits`
+[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Examples](#-examples) • [Contributing](#-contributing)
+
+</div>
+
+---
+
+## 🎯 What is this?
+
+Turn your git commits into beautiful, organized changelogs **in seconds** using AI. This Model Context Protocol (MCP) server gives AI assistants like Claude and Cursor the ability to:
+
+- 📖 Read commit history from any local git repository
+- 🎨 Auto-generate formatted changelogs grouped by Features, Fixes, and Chores
+- ⚡ Work 100% locally with no API keys required
+- 🤖 Integrate seamlessly with any MCP-compatible AI tool
+
+### The Problem It Solves
+
+❌ **Before:** Manually writing changelogs is tedious and time-consuming  
+❌ **Before:** Copy-pasting commit messages into release notes  
+❌ **Before:** Inconsistent formatting across team members  
+
+✅ **After:** Ask AI "generate a changelog from the last 50 commits"  
+✅ **After:** Beautiful, categorized output in seconds  
+✅ **After:** Consistent Conventional Commits formatting automatically  
+
+---
+
+## ✨ Features
+
+### 🛠️ Two Powerful Tools
+
+#### `git_get_recent_commits`
 Fetch recent commits from a local git repository.
 
 **Parameters:**
@@ -15,7 +49,7 @@ Fetch recent commits from a local git repository.
 
 **Returns:** Structured commit objects with hash, date, message, body, author name, and author email.
 
-### `git_generate_markdown_changelog`
+#### `git_generate_markdown_changelog`
 Generate a beautifully structured Markdown changelog grouped by Features, Fixes, and Chores.
 
 **Parameters:**
@@ -24,73 +58,143 @@ Generate a beautifully structured Markdown changelog grouped by Features, Fixes,
 
 **Returns:** Formatted Markdown changelog with commits categorized using Conventional Commits conventions.
 
-## Installation
+### 🎯 Key Benefits
+
+- ⚡ **Lightning Fast** - Generate changelogs in seconds
+- 🎨 **Beautiful Formatting** - Automatic grouping by commit type
+- 🔒 **100% Local** - No external APIs, no data leaves your machine
+- 🤖 **AI-Powered** - Works with Claude, Cursor, and any MCP client
+- 📝 **Conventional Commits** - Smart parsing of commit message formats
+- 🔧 **Flexible** - Use for releases, PRs, sprint summaries, or team reports
+
+---
+
+## 📦 Installation
+
+### Option 1: Install via npm (Recommended)
 
 ```bash
+npm install -g git-changelog-mcp
+```
+
+### Option 2: Clone and Build
+
+```bash
+git clone https://github.com/kslmisel/git-changelog-mcp.git
+cd git-changelog-mcp
 npm install
 npm run build
 ```
 
-## Usage
+---
 
-### Running the Server
+## 🚀 Usage
 
-```bash
-npm start
-# or
-node dist/index.js
+### For Cursor IDE
+
+Create or edit `.cursor/mcp.json` in your workspace:
+
+```json
+{
+  "mcpServers": {
+    "git-changelog": {
+      "command": "npx",
+      "args": ["-y", "git-changelog-mcp"]
+    }
+  }
+}
 ```
 
-The server communicates over stdio using the MCP protocol.
+**Restart Cursor** and the server will be available.
 
-### Configuration for Cursor or Claude Desktop
+### For Claude Desktop
 
-Add this server to your MCP client configuration:
+Add to your Claude Desktop config:
 
-**For Claude Desktop** (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
+**macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`  
+**Windows:** `%APPDATA%\Claude\claude_desktop_config.json`  
+**Linux:** `~/.config/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "git-changelog": {
+      "command": "npx",
+      "args": ["-y", "git-changelog-mcp"]
+    }
+  }
+}
+```
+
+**Restart Claude Desktop** to load the server.
+
+### If Installed Locally
+
+If you cloned the repo instead of using npm:
 
 ```json
 {
   "mcpServers": {
     "git-changelog": {
       "command": "node",
-      "args": ["C:/Users/user/Desktop/Jackson-CS2/Opeenn/dist/index.js"]
+      "args": ["/absolute/path/to/git-changelog-mcp/dist/index.js"]
     }
   }
 }
 ```
 
-**For Cursor** (`.cursor/mcp.json` in your workspace):
+---
 
-```json
-{
-  "mcpServers": {
-    "git-changelog": {
-      "command": "node",
-      "args": ["C:/Users/user/Desktop/Jackson-CS2/Opeenn/dist/index.js"]
-    }
-  }
-}
+## 💡 Examples
+
+Once configured, ask your AI assistant:
+
+### Example 1: Simple Changelog
+```
+Fetch the last 30 commits from this repository and generate a changelog
 ```
 
-## Example Usage in Chat
+### Example 2: Release Notes
+```
+Get the last 50 commits from C:/projects/my-app and create a changelog 
+titled "Release v2.0.0"
+```
 
-Once configured, you can ask the AI:
+### Example 3: PR Description
+```
+Generate a changelog from the last 10 commits to use as a pull request description
+```
 
-> "Use git_get_recent_commits to fetch the last 30 commits from C:/projects/myrepo, then generate a changelog"
+### Example 4: Sprint Summary
+```
+Show me all commits from the past week formatted as a changelog for our standup
+```
 
-The AI will:
-1. Call `git_get_recent_commits` with your repo path
-2. Parse the returned commit data
-3. Call `git_generate_markdown_changelog` to format it beautifully
+### Example Output
 
-## Development
+```markdown
+## Release v2.0.0
 
-- **Build:** `npm run build`
-- **Dev:** `npm run dev` (builds and runs)
-- **Start:** `npm start` (runs the built server)
+### Features
 
-## Architecture
+- Add user authentication with JWT (`a1b2c3d`)
+- Implement dark mode toggle (`e4f5g6h`)
+- Add pagination to user list (`i7j8k9l`)
+
+### Fixes
+
+- Fix memory leak in WebSocket connection (`m1n2o3p`)
+- Resolve CORS issues on API endpoints (`q4r5s6t`)
+
+### Chores
+
+- Update dependencies to latest versions (`u7v8w9x`)
+- Refactor database connection pool (`y1z2a3b`)
+```
+
+---
+
+## 🏗️ Architecture
 
 - **Entry point:** `src/index.ts`
 - **Transport:** Stdio (JSON-RPC over stdin/stdout)
@@ -98,12 +202,69 @@ The AI will:
 - **Git operations:** `simple-git` library
 - **Error handling:** All diagnostics written to stderr to preserve the JSON-RPC stream
 
-## Requirements
+---
 
-- Node.js 20+
+## 🧪 Development
+
+```bash
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+
+# Run the server
+npm start
+
+# Build and run in one command
+npm run dev
+```
+
+---
+
+## 📋 Requirements
+
+- Node.js 18 or higher
 - TypeScript 7+
 - A local git repository to inspect
 
-## License
+---
 
-ISC
+## 🤝 Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🔗 Links
+
+- [Model Context Protocol Documentation](https://modelcontextprotocol.io/)
+- [MCP Servers Registry](https://github.com/modelcontextprotocol/servers)
+- [Conventional Commits](https://www.conventionalcommits.org/)
+- [Report Issues](https://github.com/kslmisel/git-changelog-mcp/issues)
+
+---
+
+## 🌟 Show Your Support
+
+If this project helped you, please consider giving it a ⭐ on GitHub!
+
+---
+
+<div align="center">
+
+Made with ❤️ by [kslmisel](https://github.com/kslmisel)
+
+</div>
